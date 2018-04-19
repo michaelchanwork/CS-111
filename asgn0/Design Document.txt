@@ -1,0 +1,7 @@
+I began(after reading through documentation of the system calls) thinking of the different cases that would happen
+as the program ran:
+    No arguments - output as if echoing your input, easily replicated through read of stdin and write.
+        Needed code to account for CTRL+D(EOF) and reaction to pressing enter
+    1+ arguments - same code should run on each file, so simply use a for loop and cycle through arguments
+Each case also had to account for potential errors, using perror(). We can take advantage of the return value of each
+system call.

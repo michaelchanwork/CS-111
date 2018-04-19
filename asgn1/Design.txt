@@ -1,0 +1,44 @@
+In accordance with the post on Piazza @234.
+After getting the array of strings from getline() into args:
+
+1. Check for <, >, |
+    Because these are the special symbols used to signal redirection and piping,
+I decided I would first check for them.  After some testing in FreeBSD, I noted
+that when there is no/invalid file immediately following one of these symbols,
+it returns an error message.  I accomplished this simply by saving the places
+where one of these symbols is encountered, and checking the next argument
+against the special characters noted in lex.l and against NULL.
+    Specifically with piping |, I counted how many there were in addition to their
+location.
+2. Run processes/Redirection
+    Before I started handling redirection and piping, I first coded the fork
+so I could produce the desired parent and child process. After learning the use
+of execvp(), I started altering my existing code to account for redirection.
+First, I had to divide the provided arguments into partial arrays that I could send to execvp().
+This consisted of for loops copying parts of the original array into the partials, and dividing
+the original array into sections based on the locations of special characters.  Then, I had to learn the use of dup
+functions, through which STDIN and STDOUT could redirect into the desired file or command.
+The tricky thing was storing the dup return value so I could restore STDOUT so I could print
+error statements if something went wrong.
+3. Piping
+    Due to the way piping implementation was required, piping should have been the easiest to code, which it was.
+Already having divided the array based on special characters, all I had to do was initialize an array to pipe(),
+and essentially redirect to these pipes.  The only problem I had was when turning the execution part of the code
+into a loop to generate the variable number of child processes needed, I had accidentally put the parent process
+code inside the loop, which, before seeing the mistake, led to reevaluation of every bit of piping code I had previously
+laid down(and was working fine).
+4. Testing
+    Throughout this entire homework, I would test random commands in conjunction with redirection and piping to
+see how FreeBSD handled them vs how myshell handled them.  Testing the program, however, was a much smaller
+portion of time compared to researching each of the functions, especially their arguments.  More time was spent
+simply testing how these functions worked, as the man pages of FreeBSD could occasionally be vague.
+5. Diagram
+The only real diagram I used while coding this was the way pipe() would interact with my pipes[] and arguments.
+Pargs = Partial Arguments, a portion of args
+pargs1  1|0 pargs2 3|2 pargs3 5|4
+where | is the pipe.
+Visualize the left side of pipe to be where left side arguments write to right side
+visualize the right side of pipe to be where right side receives from left side
+
+While an extremely simple diagram, it helped me visualize which pipes to close, redirect, and how to assign
+pipes to the correct child process/pargs.
