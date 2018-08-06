@@ -28,7 +28,7 @@ into a loop to generate the variable number of child processes needed, I had acc
 code inside the loop, which, before seeing the mistake, led to reevaluation of every bit of piping code I had previously
 laid down(and was working fine).
 4. Testing
-    Throughout this entire homework, I would test random commands in conjunction with redirection and piping to
+        Throughout this entire assignment, I would test random commands in conjunction with redirection and piping to
 see how FreeBSD handled them vs how myshell handled them.  Testing the program, however, was a much smaller
 portion of time compared to researching each of the functions, especially their arguments.  More time was spent
 simply testing how these functions worked, as the man pages of FreeBSD could occasionally be vague.
